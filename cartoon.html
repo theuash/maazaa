@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoon Explorer - Find Your Favorite Cartoons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Neue', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f8961e;
+            --comedy-color: #ffbe0b;
+            --adventure-color: #fb5607;
+            --fantasy-color: #8338ec;
+            --sci-fi-color: #3a86ff;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo-container i {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: white;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 5px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 50px;
+            border: 2px solid #e0e0e0;
+            background-color: #f8f9fa;
+            font-size: 1.1rem;
+            color: var(--dark-color);
+            transition: all 0.3s;
+        }
+
+        .search-input input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-input i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .random-btn {
+            padding: 15px 30px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .random-btn:hover {
+            background-color: #e11570;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(248, 37, 133, 0.3);
+        }
+
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            border: 2px solid transparent;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover {
+            background-color: #e9ecef;
+            transform: translateY(-3px);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .filter-btn.comedy {
+            border-color: var(--comedy-color);
+        }
+
+        .filter-btn.adventure {
+            border-color: var(--adventure-color);
+        }
+
+        .filter-btn.fantasy {
+            border-color: var(--fantasy-color);
+        }
+
+        .filter-btn.sci-fi {
+            border-color: var(--sci-fi-color);
+        }
+
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+
+        .results-count {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .sort-options {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .sort-options select {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            background-color: white;
+            color: var(--dark-color);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .cartoons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .cartoon-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+
+        .cartoon-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .cartoon-image {
+            height: 200px;
+            width: 100%;
+            background-color: #f0f2f5;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .cartoon-image::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.9), transparent);
+        }
+
+        .cartoon-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        .cartoon-name {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-color);
+            z-index: 2;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8);
+        }
+
+        .cartoon-info {
+            padding: 20px;
+        }
+
+        .cartoon-year, .cartoon-rating, .cartoon-genres {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cartoon-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .cartoon-info p {
+            color: var(--dark-color);
+            line-height: 1.5;
+        }
+
+        .rating-stars {
+            color: var(--warning-color);
+            font-size: 0.9rem;
+        }
+
+        .genre-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .genre-tag {
+            background-color: #f0f2f5;
+            color: var(--dark-color);
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .genre-tag.comedy {
+            background-color: rgba(255, 190, 11, 0.2);
+            color: #b38600;
+        }
+
+        .genre-tag.adventure {
+            background-color: rgba(251, 86, 7, 0.2);
+            color: #c9450a;
+        }
+
+        .genre-tag.fantasy {
+            background-color: rgba(131, 56, 236, 0.2);
+            color: #6a2bc4;
+        }
+
+        .genre-tag.sci-fi {
+            background-color: rgba(58, 134, 255, 0.2);
+            color: #1a56b8;
+        }
+
+        .cartoon-card.comedy {
+            border-color: var(--comedy-color);
+        }
+
+        .cartoon-card.adventure {
+            border-color: var(--adventure-color);
+        }
+
+        .cartoon-card.fantasy {
+            border-color: var(--fantasy-color);
+        }
+
+        .cartoon-card.sci-fi {
+            border-color: var(--sci-fi-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Modal for cartoon details */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+            max-width: 800px;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background-color: #e11570;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-image {
+            height: 300px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .modal-name {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .modal-year {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .modal-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .modal-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-section p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .modal-characters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .character-tag {
+            background-color: #e9ecef;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .search-input, .random-btn {
+                width: 100%;
+            }
+
+            .results-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .cartoons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .cartoons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-name {
+                font-size: 2rem;
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6c757d;
+            font-size: 1.2rem;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <i class="fas fa-tv"></i>
+            <h1>Cartoon Explorer</h1>
+            <i class="fas fa-film"></i>
+        </div>
+        <p class="tagline">Discover your next favorite animated series from a collection of classic and modern cartoons</p>
+    </header>
+
+    <div class="container">
+        <div class="search-section">
+            <div class="search-box">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search cartoons by name, character, or keyword...">
+                </div>
+                <button class="random-btn" id="randomBtn">
+                    <i class="fas fa-random"></i> Random Cartoon
+                </button>
+            </div>
+            
+            <div class="filter-section">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-globe"></i> All Cartoons
+                </button>
+                <button class="filter-btn comedy" data-filter="comedy">
+                    <i class="fas fa-laugh"></i> Comedy
+                </button>
+                <button class="filter-btn adventure" data-filter="adventure">
+                    <i class="fas fa-hiking"></i> Adventure
+                </button>
+                <button class="filter-btn fantasy" data-filter="fantasy">
+                    <i class="fas fa-dragon"></i> Fantasy
+                </button>
+                <button class="filter-btn sci-fi" data-filter="sci-fi">
+                    <i class="fas fa-robot"></i> Sci-Fi
+                </button>
+                <button class="filter-btn" data-filter="2000">
+                    <i class="fas fa-calendar-alt"></i> 2000s
+                </button>
+                <button class="filter-btn" data-filter="2010">
+                    <i class="fas fa-calendar-check"></i> 2010s
+                </button>
+            </div>
+        </div>
+
+        <div class="results-info">
+            <div class="results-count">
+                Found <span id="cartoonCount">12</span> Cartoons
+            </div>
+            <div class="sort-options">
+                <label for="sortSelect">Sort by:</label>
+                <select id="sortSelect">
+                    <option value="name">Name (A-Z)</option>
+                    <option value="year-desc">Newest First</option>
+                    <option value="year-asc">Oldest First</option>
+                    <option value="rating">Highest Rated</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="cartoons-grid" id="cartoonsGrid">
+            <!-- Cartoon cards will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal for cartoon details -->
+    <div class="modal" id="cartoonModal">
+        <div class="modal-content">
+            <div class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Modal content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Cartoon Explorer &copy; 2023 | Discover the wonderful world of animation</p>
+        <p>This is a fan-made project. All cartoon images and information are property of their respective owners.</p>
+    </footer>
+
+    <script>
+        // Cartoon database
+        const cartoons = [
+            {
+                id: 1,
+                name: "Adventure Time",
+                year: 2010,
+                rating: 4.5,
+                genres: ["Adventure", "Fantasy", "Comedy"],
+                description: "Adventure Time follows the adventures of a boy named Finn and his best friend and adoptive brother Jake, a dog with the magical power to change shape and size at will. Set in the post-apocalyptic Land of Ooo, the series is known for its surreal humor, emotional depth, and rich world-building.",
+                characters: ["Finn the Human", "Jake the Dog", "Princess Bubblegum", "Marceline the Vampire Queen", "Ice King"],
+                network: "Cartoon Network",
+                episodes: 283,
+                primaryColor: "#3a86ff",
+                image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWR2ZW50dXJlJTIwdGltZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 2,
+                name: "Rick and Morty",
+                year: 2013,
+                rating: 4.8,
+                genres: ["Sci-Fi", "Comedy", "Adventure"],
+                description: "Rick and Morty is an American adult animated science-fiction sitcom that follows the misadventures of cynical mad scientist Rick Sanchez and his good-hearted but fretful grandson Morty Smith, who split their time between domestic family life and interdimensional adventures.",
+                characters: ["Rick Sanchez", "Morty Smith", "Summer Smith", "Beth Smith", "Jerry Smith"],
+                network: "Adult Swim",
+                episodes: 61,
+                primaryColor: "#4cc9f0",
+                image: "https://images.unsplash.com/photo-1639322537502-9e1a6b8b1b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmljayUyMGFuZCUyMG1vcnR5fGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 3,
+                name: "Steven Universe",
+                year: 2013,
+                rating: 4.7,
+                genres: ["Fantasy", "Adventure", "Comedy"],
+                description: "Steven Universe is an American animated television series created by Rebecca Sugar. It tells the coming-of-age story of a young boy named Steven Universe, who lives with the Crystal Gems—magical, humanoid aliens named Garnet, Amethyst, and Pearl—in the town of Beach City.",
+                characters: ["Steven Universe", "Garnet", "Amethyst", "Pearl", "Connie Maheswaran"],
+                network: "Cartoon Network",
+                episodes: 160,
+                primaryColor: "#f72585",
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3RldmVuJTIwdW5pdmVyc2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 4,
+                name: "Gravity Falls",
+                year: 2012,
+                rating: 4.9,
+                genres: ["Mystery", "Adventure", "Comedy"],
+                description: "Gravity Falls is an American animated mystery-comedy television series created by Alex Hirsch. The series follows the adventures of Dipper Pines and his twin sister Mabel during their summer stay with their great-uncle Stan in Gravity Falls, Oregon, a mysterious town full of paranormal forces and supernatural creatures.",
+                characters: ["Dipper Pines", "Mabel Pines", "Stanley Pines", "Soos Ramirez", "Wendy Corduroy"],
+                network: "Disney Channel",
+                episodes: 40,
+                primaryColor: "#4361ee",
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Z3Jhdml0eSUyMGZhbGxzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 5,
+                name: "The Simpsons",
+                year: 1989,
+                rating: 4.3,
+                genres: ["Comedy", "Satire"],
+                description: "The Simpsons is an American animated sitcom created by Matt Groening for the Fox Broadcasting Company. The series is a satirical depiction of working-class life, epitomized by the Simpson family, which consists of Homer, Marge, Bart, Lisa, and Maggie. The show is set in the fictional town of Springfield and parodies American culture, society, and television.",
+                characters: ["Homer Simpson", "Marge Simpson", "Bart Simpson", "Lisa Simpson", "Maggie Simpson"],
+                network: "Fox",
+                episodes: 750,
+                primaryColor: "#ffbe0b",
+                image: "https://images.unsplash.com/photo-1634152961497-4c6b8e65b0f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2ltcHNvbnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 6,
+                name: "Avatar: The Last Airbender",
+                year: 2005,
+                rating: 4.9,
+                genres: ["Adventure", "Fantasy", "Action"],
+                description: "Avatar: The Last Airbender is an American animated television series created by Michael Dante DiMartino and Bryan Konietzko. It follows the adventures of Aang, a young successor to a long line of Avatars, who must master all four elemental powers to restore balance to a world threatened by the Fire Nation.",
+                characters: ["Aang", "Katara", "Sokka", "Zuko", "Toph Beifong"],
+                network: "Nickelodeon",
+                episodes: 61,
+                primaryColor: "#3a0ca3",
+                image: "https://images.unsplash.com/photo-1639322537502-9e1a6b8b1b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXZhdGFyJTIwdGhlJTIwbGFzdCUyMGFpcmJlbmRlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 7,
+                name: "SpongeBob SquarePants",
+                year: 1999,
+                rating: 4.4,
+                genres: ["Comedy", "Fantasy"],
+                description: "SpongeBob SquarePants is an American animated comedy television series created by marine science educator and animator Stephen Hillenburg. It chronicles the adventures of the title character and his aquatic friends in the underwater city of Bikini Bottom.",
+                characters: ["SpongeBob SquarePants", "Patrick Star", "Squidward Tentacles", "Mr. Krabs", "Sandy Cheeks"],
+                network: "Nickelodeon",
+                episodes: 280,
+                primaryColor: "#4cc9f0",
+                image: "https://images.unsplash.com/photo-1634152961497-4c6b8e65b0f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3BvbmdlYm9ifGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 8,
+                name: "Regular Show",
+                year: 2010,
+                rating: 4.5,
+                genres: ["Comedy", "Adventure", "Surreal"],
+                description: "Regular Show is an American animated television series created by J. G. Quintel for Cartoon Network. It revolves around the lives of two working-class friends, a blue jay named Mordecai and a raccoon named Rigby, who work as groundskeepers at a park and spend their days trying to avoid work and entertain themselves.",
+                characters: ["Mordecai", "Rigby", "Benson", "Skips", "Pops"],
+                network: "Cartoon Network",
+                episodes: 261,
+                primaryColor: "#fb5607",
+                image: "https://images.unsplash.com/photo-1639322537502-9e1a6b8b1b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cmVndWxhciUyMHNob3d8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 9,
+                name: "Ben 10",
+                year: 2005,
+                rating: 4.6,
+                genres: ["Sci-Fi", "Adventure", "Action"],
+                description: "Ben 10 is an American animated television series created by Man of Action Studios. It follows the adventures of Ben Tennyson, a 10-year-old boy who discovers a mysterious watch-like device called the Omnitrix, which allows him to transform into 10 different alien creatures with unique abilities.",
+                characters: ["Ben Tennyson", "Gwen Tennyson", "Max Tennyson", "Kevin Levin", "Vilgax"],
+                network: "Cartoon Network",
+                episodes: 52,
+                primaryColor: "#3a86ff",
+                image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmVuJTIwMTB8ZW58MHx8MHx8fDA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 10,
+                name: "Phineas and Ferb",
+                year: 2007,
+                rating: 4.5,
+                genres: ["Comedy", "Adventure", "Musical"],
+                description: "Phineas and Ferb is an American animated musical-comedy television series created by Dan Povenmire and Jeff 'Swampy' Marsh. It follows the adventures of stepbrothers Phineas Flynn and Ferb Fletcher, who embark on extraordinary projects during their summer vacation, while their sister Candace tries to expose them to their mother.",
+                characters: ["Phineas Flynn", "Ferb Fletcher", "Candace Flynn", "Perry the Platypus", "Dr. Doofenshmirtz"],
+                network: "Disney Channel",
+                episodes: 222,
+                primaryColor: "#4cc9f0",
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGhpbmVhcyUyMGFuZCUyMGZlcmJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 11,
+                name: "The Powerpuff Girls",
+                year: 1998,
+                rating: 4.4,
+                genres: ["Action", "Comedy", "Superhero"],
+                description: "The Powerpuff Girls is an American animated superhero television series created by animator Craig McCracken. It centers on Blossom, Bubbles, and Buttercup, three kindergarten-aged girls with superpowers, who frequently save the world from villains and monsters.",
+                characters: ["Blossom", "Bubbles", "Buttercup", "Professor Utonium", "Mojo Jojo"],
+                network: "Cartoon Network",
+                episodes: 78,
+                primaryColor: "#f72585",
+                image: "https://images.unsplash.com/photo-1639322537502-9e1a6b8b1b2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cG93ZXJwdWZmJTIwZ2lybHN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
+            },
+            {
+                id: 12,
+                name: "Scooby-Doo, Where Are You!",
+                year: 1969,
+                rating: 4.2,
+                genres: ["Mystery", "Comedy", "Adventure"],
+                description: "Scooby-Doo, Where Are You! is an American animated television series created by Joe Ruby and Ken Spears. It features four teenagers—Fred, Daphne, Velma, and Shaggy—and their talking Great Dane named Scooby-Doo, who solve mysteries involving supposedly supernatural creatures through a series of antics and missteps.",
+                characters: ["Scooby-Doo", "Shaggy Rogers", "Fred Jones", "Daphne Blake", "Velma Dinkley"],
+                network: "CBS",
+                episodes: 41,
+                primaryColor: "#8338ec",
+                image: "https://images.unsplash.com/photo-1634152961497-4c6b8e65b0f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2Nvb2J5JTIwZG9vfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
+            }
+        ];
+
+        // DOM Elements
+        const cartoonsGrid = document.getElementById('cartoonsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const cartoonCount = document.getElementById('cartoonCount');
+        const cartoonModal = document.getElementById('cartoonModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalBody = document.getElementById('modalBody');
+        const randomBtn = document.getElementById('randomBtn');
+        const sortSelect = document.getElementById('sortSelect');
+
+        // Current filter state
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let currentSort = 'name';
+
+        // Initialize the page
+        function init() {
+            renderCartoons(cartoons);
+            setupEventListeners();
+        }
+
+        // Render cartoons to the grid
+        function renderCartoons(cartoonsToRender) {
+            cartoonsGrid.innerHTML = '';
+            
+            if (cartoonsToRender.length === 0) {
+                cartoonsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No cartoons found</h3>
+                        <p>Try adjusting your search or filter to find more cartoons</p>
+                    </div>
+                `;
+                cartoonCount.textContent = '0';
+                return;
+            }
+            
+            // Apply sorting
+            cartoonsToRender = sortCartoons(cartoonsToRender);
+            
+            cartoonsToRender.forEach(cartoon => {
+                const primaryGenre = cartoon.genres[0].toLowerCase().replace(' ', '-');
+                const cartoonCard = document.createElement('div');
+                cartoonCard.className = `cartoon-card ${primaryGenre}`;
+                cartoonCard.dataset.id = cartoon.id;
+                
+                // Generate star rating
+                const stars = generateStars(cartoon.rating);
+                
+                cartoonCard.innerHTML = `
+                    <div class="cartoon-image" style="background-image: url('${cartoon.image}')">
+                        <div class="cartoon-badge">${cartoon.year}</div>
+                        <div class="cartoon-name">${cartoon.name}</div>
+                    </div>
+                    <div class="cartoon-info">
+                        <div class="cartoon-rating">
+                            <h3><i class="fas fa-star"></i> Rating</h3>
+                            <div class="rating-stars">${stars}</div>
+                            <p>${cartoon.rating}/5.0</p>
+                        </div>
+                        <div class="cartoon-genres">
+                            <h3><i class="fas fa-tags"></i> Genres</h3>
+                            <div class="genre-tags">
+                                ${cartoon.genres.map(genre => `<span class="genre-tag ${genre.toLowerCase().replace(' ', '-')}">${genre}</span>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                cartoonsGrid.appendChild(cartoonCard);
+            });
+            
+            cartoonCount.textContent = cartoonsToRender.length;
+            
+            // Add click event to each cartoon card
+            document.querySelectorAll('.cartoon-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const cartoonId = parseInt(this.dataset.id);
+                    const cartoon = cartoons.find(c => c.id === cartoonId);
+                    openCartoonModal(cartoon);
+                });
+            });
+        }
+
+        // Generate star rating HTML
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Filter cartoons based on current filter and search
+        function filterCartoons() {
+            let filteredCartoons = cartoons;
+            
+            // Apply genre filter
+            if (currentFilter !== 'all') {
+                if (['comedy', 'adventure', 'fantasy', 'sci-fi'].includes(currentFilter)) {
+                    filteredCartoons = filteredCartoons.filter(cartoon => 
+                        cartoon.genres.some(genre => genre.toLowerCase().replace(' ', '-') === currentFilter)
+                    );
+                } else if (currentFilter === '2000') {
+                    filteredCartoons = filteredCartoons.filter(cartoon => cartoon.year >= 2000 && cartoon.year < 2010);
+                } else if (currentFilter === '2010') {
+                    filteredCartoons = filteredCartoons.filter(cartoon => cartoon.year >= 2010 && cartoon.year < 2020);
+                }
+            }
+            
+            // Apply search filter
+            if (currentSearch.trim() !== '') {
+                const searchTerm = currentSearch.toLowerCase();
+                filteredCartoons = filteredCartoons.filter(cartoon => 
+                    cartoon.name.toLowerCase().includes(searchTerm) ||
+                    cartoon.description.toLowerCase().includes(searchTerm) ||
+                    cartoon.characters.some(character => character.toLowerCase().includes(searchTerm)) ||
+                    cartoon.genres.some(genre => genre.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            renderCartoons(filteredCartoons);
+        }
+
+        // Sort cartoons based on current sort option
+        function sortCartoons(cartoonsToSort) {
+            const sortedCartoons = [...cartoonsToSort];
+            
+            switch(currentSort) {
+                case 'name':
+                    sortedCartoons.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'year-desc':
+                    sortedCartoons.sort((a, b) => b.year - a.year);
+                    break;
+                case 'year-asc':
+                    sortedCartoons.sort((a, b) => a.year - b.year);
+                    break;
+                case 'rating':
+                    sortedCartoons.sort((a, b) => b.rating - a.rating);
+                    break;
+            }
+            
+            return sortedCartoons;
+        }
+
+        // Open modal with cartoon details
+        function openCartoonModal(cartoon) {
+            const stars = generateStars(cartoon.rating);
+            
+            modalBody.innerHTML = `
+                <div class="modal-image" style="background-image: url('${cartoon.image}')"></div>
+                <h2 class="modal-name">${cartoon.name}</h2>
+                <span class="modal-year">${cartoon.year} • ${cartoon.network}</span>
+                <div class="rating-stars" style="font-size: 1.5rem; margin-bottom: 15px;">${stars} ${cartoon.rating}/5.0</div>
+                
+                <div class="modal-details">
+                    <div class="modal-section">
+                        <h3><i class="fas fa-info-circle"></i> Description</h3>
+                        <p>${cartoon.description}</p>
+                        
+                        <h3><i class="fas fa-tags"></i> Genres</h3>
+                        <div class="genre-tags">
+                            ${cartoon.genres.map(genre => `<span class="genre-tag ${genre.toLowerCase().replace(' ', '-')}">${genre}</span>`).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h3><i class="fas fa-users"></i> Main Characters</h3>
+                        <div class="modal-characters">
+                            ${cartoon.characters.map(character => `<span class="character-tag">${character}</span>`).join('')}
+                        </div>
+                        
+                        <h3><i class="fas fa-tv"></i> Show Details</h3>
+                        <p><strong>Network:</strong> ${cartoon.network}</p>
+                        <p><strong>Episodes:</strong> ${cartoon.episodes}</p>
+                        <p><strong>First Aired:</strong> ${cartoon.year}</p>
+                    </div>
+                </div>
+            `;
+            
+            cartoonModal.style.display = 'flex';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                filterCartoons();
+            });
+            
+            // Filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    // Update current filter
+                    currentFilter = this.dataset.filter;
+                    filterCartoons();
+                });
+            });
+            
+            // Sort select
+            sortSelect.addEventListener('change', function() {
+                currentSort = this.value;
+                filterCartoons();
+            });
+            
+            // Random cartoon button
+            randomBtn.addEventListener('click', function() {
+                const filteredCartoons = getFilteredCartoons();
+                if (filteredCartoons.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * filteredCartoons.length);
+                    openCartoonModal(filteredCartoons[randomIndex]);
+                }
+            });
+            
+            // Modal close button
+            modalClose.addEventListener('click', function() {
+                cartoonModal.style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            cartoonModal.addEventListener('click', function(e) {
+                if (e.target === cartoonModal) {
+                    cartoonModal.style.display = 'none';
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && cartoonModal.style.display === 'flex') {
+                    cartoonModal.style.display = 'none';
+                }
+            });
+        }
+
+        // Get currently filtered cartoons
+        function getFilteredCartoons() {
+            let filteredCartoons = cartoons;
+            
+            if (currentFilter !== 'all') {
+                if (['comedy', 'adventure', 'fantasy', 'sci-fi'].includes(currentFilter)) {
+                    filteredCartoons = filteredCartoons.filter(cartoon => 
+                        cartoon.genres.some(genre => genre.toLowerCase().replace(' ', '-') === currentFilter)
+                    );
+                } else if (currentFilter === '2000') {
+                    filteredCartoons = filteredCartoons.filter(cartoon => cartoon.year >= 2000 && cartoon.year < 2010);
+                } else if (currentFilter === '2010') {
+                    filteredCartoons = filteredCartoons.filter(cartoon => cartoon.year >= 2010 && cartoon.year < 2020);
+                }
+            }
+            
+            if (currentSearch.trim() !== '') {
+                const searchTerm = currentSearch.toLowerCase();
+                filteredCartoons = filteredCartoons.filter(cartoon => 
+                    cartoon.name.toLowerCase().includes(searchTerm) ||
+                    cartoon.description.toLowerCase().includes(searchTerm) ||
+                    cartoon.characters.some(character => character.toLowerCase().includes(searchTerm)) ||
+                    cartoon.genres.some(genre => genre.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            return filteredCartoons;
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
