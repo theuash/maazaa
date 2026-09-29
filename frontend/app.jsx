@@ -1,5 +1,5 @@
 yoyooyoyoyo
-ujju anna
-where rakhi
-gift????
+sudeep pranav is gay for
+you 
+anna we ur secrets 
 
